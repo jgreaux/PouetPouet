@@ -66,6 +66,8 @@ class Truck {
 		this.build_charge()
 		this.canvas.addEventListener("mousedown", (e)=> {this.handle_click_down(e, this.canvas)})
 		this.canvas.addEventListener("mouseup", (e)=> {this.handle_click_up(e, this.canvas)})
+		this.canvas.addEventListener("touchstart", (e)=> {this.handle_click_down(e, this.canvas)})
+		this.canvas.addEventListener("touchend", (e)=> {this.handle_click_up(e, this.canvas)})
 	}
 	
 	build_charge(){
@@ -142,12 +144,14 @@ class Truck {
 		this.set_tracking_hpos(x)
 		this.update_tracking(this)
 		c.addEventListener("mousemove", (e)=> {this.mouse_track(e,this)})
+		c.addEventListener("touchmove", (e)=> {this.mouse_track(e,this)})
 		
 	}
 	
 	handle_click_up(e, c) {
 		this.set_tracking_elmt("none")
 		c.removeEventListener("mousemove", (e)=> {this.mouse_track(e,this)})
+		c.addEventListener("touchmove", (e)=> {this.mouse_track(e,this)})
 	}
 	
 	set_tracking_elmt(t) {
