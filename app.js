@@ -64,10 +64,10 @@ class Truck {
 			}
 		}
 		this.build_charge()
-		this.canvas.addEventListener("mousedown", (e)=> {this.handle_click_down(e, this.canvas)})
-		this.canvas.addEventListener("mouseup", (e)=> {this.handle_click_up(e, this.canvas)})
-		this.canvas.addEventListener("touchstart", (e)=> {this.handle_click_down(e, this.canvas)})
-		this.canvas.addEventListener("touchend", (e)=> {this.handle_click_up(e, this.canvas)})
+		this.canvas.addEventListener("mousedown", (e)=> {this.handle_click_down(e)})
+		this.canvas.addEventListener("mouseup", (e)=> {this.handle_click_up(e)})
+		this.canvas.addEventListener("touchstart", (e)=> {this.handle_touch_start(e)})
+		this.canvas.addEventListener("touchend", (e)=> {this.handle_touch_end(e)})
 	}
 	
 	build_charge(){
@@ -129,9 +129,21 @@ class Truck {
 		
 	}
 	
-	handle_click_down(e, c) {
+	touch_track(e, c){
+		const rec = e.target.getBoundingClientRect()
+		const touch = e.touches[0]
+		const x = touch.pageX - rec.left
+		const y = touch.pageY - rec.top
+		if(!c.is_tracking()) return
+		c.set_tracking_hpos(x,y)
+		
+	}
+	
+	handle_click_down(e) {
+		const c = e.target
 		const x = e.offsetX
 		const y = e.offsetY
+		console.log(x,y)
 		let el = "none"
 		if(this.is_left_arrows(x,y)){
 			el = "LA"
@@ -144,14 +156,38 @@ class Truck {
 		this.set_tracking_hpos(x)
 		this.update_tracking(this)
 		c.addEventListener("mousemove", (e)=> {this.mouse_track(e,this)})
-		c.addEventListener("touchmove", (e)=> {this.mouse_track(e,this)})
+	}
+	
+	handle_touch_start(e) {
+		const c = e.target
+		const rec = c.getBoundingClientRect()
+		const touch = e.touches[0]
+		const x = touch.pageX - rec.left
+		const y = touch.pageY - rec.top
+		let el = "none"
+		if(this.is_left_arrows(x,y)){
+			el = "LA"
+		}else if (this.is_right_arrows(x,y)){
+			el = "RA"
+		}else if (this.is_G(x,y)){
+			el = "G"
+		}
+		this.set_tracking_elmt(el)
+		this.set_tracking_hpos(x)
+		this.update_tracking(this)
+		c.addEventListener("touchmove", (e)=> {this.touch_track(e,this)})
 		
 	}
 	
-	handle_click_up(e, c) {
+	handle_click_up(e) {
+		const c = e.target
 		this.set_tracking_elmt("none")
 		c.removeEventListener("mousemove", (e)=> {this.mouse_track(e,this)})
-		c.addEventListener("touchmove", (e)=> {this.mouse_track(e,this)})
+	}
+	
+	handle_touch_end(e) {
+		const c = e.target
+		c.addEventListener("touchmove", (e)=> {this.touch_track(e,this)})
 	}
 	
 	set_tracking_elmt(t) {
@@ -171,7 +207,7 @@ class Truck {
 	}
 	
 	is_left_arrows(x, y) {
-		const marge = 5
+		const marge = 10
 		const g = this.state.charge.g
 		const w = this.state.charge.width
 		const center_arrow = g.x - w/2
@@ -183,7 +219,7 @@ class Truck {
 	}
 	
 	is_right_arrows(x, y) {
-		const marge = 5
+		const marge = 10
 		const g = this.state.charge.g
 		const w = this.state.charge.width
 		const center_arrow = g.x + w/2
@@ -195,7 +231,7 @@ class Truck {
 	}
 	
 	is_G(x, y) {
-		const marge = 5
+		const marge = 10
 		const g = this.state.charge.g
 		const minX = g.x - marge
 		const maxX = g.x + marge
