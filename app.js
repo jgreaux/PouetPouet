@@ -169,7 +169,7 @@ class Truck {
 		ctx.lineTo(g.x, wheels.y + dist_Y)
 		ctx.stroke()
 		ctx.beginPath()
-		ctx.setLineDash([0, 0])
+		ctx.setLineDash([])
 		ctx.moveTo(g.x, wheels.y + dist_Y)
 		ctx.lineTo(wheels.pos_ar, wheels.y + dist_Y);
 		ctx.stroke()
@@ -187,7 +187,7 @@ class Truck {
 		ctx.lineTo(bed.start + bed.length, wheels.y + dist_lc)
 		ctx.stroke()
 		ctx.beginPath()
-		ctx.setLineDash([0, 0])
+		ctx.setLineDash([])
 		ctx.moveTo(bed.start, wheels.y + dist_lc)
 		ctx.lineTo(bed.start + bed.length, wheels.y + dist_lc);
 		ctx.stroke()
@@ -204,7 +204,7 @@ class Truck {
 		ctx.lineTo(wheels.pos_ar, wheels.y + dist_f)
 		ctx.stroke()
 		ctx.beginPath()
-		ctx.setLineDash([0, 0])
+		ctx.setLineDash([])
 		ctx.moveTo(wheels.pos_av, wheels.y + dist_f)
 		ctx.lineTo(wheels.pos_ar, wheels.y + dist_f);
 		ctx.stroke()
@@ -222,7 +222,7 @@ class Truck {
 		ctx.lineTo(bed.start + bed.length, wheels.y + dist_l)
 		ctx.stroke()
 		ctx.beginPath()
-		ctx.setLineDash([0, 0])
+		ctx.setLineDash([])
 		ctx.moveTo(wheels.pos_av - cabin.width/2, wheels.y + dist_l)
 		ctx.lineTo(bed.start + bed.length, wheels.y + dist_l);
 		ctx.stroke()
