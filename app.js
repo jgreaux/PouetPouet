@@ -32,7 +32,6 @@ class Truck {
 			}
 		}
 		this.build_truck()
-		this.build_charge()
 		this.canvas.addEventListener("mousedown", (e)=> {this.handle_click_down(e)})
 		this.canvas.addEventListener("mouseup", (e)=> {this.handle_click_up(e)})
 		this.canvas.addEventListener("touchstart", (e)=> {this.handle_touch_start(e)})
